@@ -1,43 +1,42 @@
-package Controller;
+package controller;
 
-import Service.productsService;
+import service.ProductService;
 import model.Product;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
 
-@Controller
-public class productsController {
+@RestController
+public class ProductController {
 
-    productsService productsService;
-    productsController(productsService productsService){
-        this.productsService = productsService;
+    ProductService ProductService;
+    ProductController(ProductService ProductService){
+        this.ProductService = ProductService;
     }
 
     @GetMapping("products")
     public ResponseEntity<List<Product>> findAllProducts(){
-        List<Product> Product = productsService.getProducts();
+        List<Product> Product = ProductService.getProducts();
         return ResponseEntity.status(200).body(Product);
     }
 
     @GetMapping("products/{id}")
-    public ResponseEntity<Optional<Product>> findById(@RequestParam int id){
-        Optional<Product> product = productsService.findById(id);
+    public ResponseEntity<Optional<Product>> findById(@PathVariable int id){
+        Optional<Product> product = ProductService.findById(id);
         return ResponseEntity.ok(product);
     }
 
     @PostMapping("products")
     public ResponseEntity<Product> addProduct(@RequestBody Product Product){
-        Product pro = productsService.addProduct(Product);
+        Product pro = ProductService.addProduct(Product);
         return ResponseEntity.ok(pro);
     }
 
     @PutMapping("products/{id}")
     public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody Product product){
-        Product pro = productsService.updateProduct(id, product);
+        Product pro = ProductService.updateProduct(id, product);
         return ResponseEntity.ok(pro);
     }
 }
