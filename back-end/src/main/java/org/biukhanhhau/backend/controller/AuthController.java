@@ -1,9 +1,11 @@
 package org.biukhanhhau.backend.controller;
 
+import org.apache.coyote.Response;
 import org.biukhanhhau.backend.model.User;
 import org.biukhanhhau.backend.repository.UserRepository;
 import org.biukhanhhau.backend.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -40,5 +42,21 @@ public class AuthController {
         else{
             throw new UsernameNotFoundException("Invalid login request");
         }
+    }
+
+    @PostMapping("/register")
+    public ResponseEntity<?> registerUser(@RequestBody User newUser){
+        if (userRepository.findByUsername(newUser.getUsername()).isPresent()){
+            return ResponseEntity.badRequest().body("Username is existed");
+        }
+
+        newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
+
+        if(newUser.getRole() == null || newUser.getRole().isEmpty()) {
+            newUser.setRole("USER");
+        }
+        User savedUser = userRepository.save(newUser);
+
+        return ResponseEntity.ok("Registration successful user: " + savedUser.getUsername());
     }
 }
