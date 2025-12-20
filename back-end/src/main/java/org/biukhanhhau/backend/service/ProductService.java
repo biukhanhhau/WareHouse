@@ -1,7 +1,7 @@
-package service;
+package org.biukhanhhau.backend.service;
 
-import repository.ProductRepository;
-import model.Product;
+import org.biukhanhhau.backend.repository.ProductRepository;
+import org.biukhanhhau.backend.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

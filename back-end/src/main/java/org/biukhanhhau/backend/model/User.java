@@ -1,4 +1,4 @@
-package model;
+package org.biukhanhhau.backend.model;
 
 import jakarta.persistence.*;
 

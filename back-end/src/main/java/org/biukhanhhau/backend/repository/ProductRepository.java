@@ -1,6 +1,6 @@
-package repository;
+package org.biukhanhhau.backend.repository;
 
-import model.Product;
+import org.biukhanhhau.backend.model.Product;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

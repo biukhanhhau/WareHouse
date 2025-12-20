@@ -1,7 +1,7 @@
-package controller;
+package org.biukhanhhau.backend.controller;
 
-import service.ProductService;
-import model.Product;
+import org.biukhanhhau.backend.service.ProductService;
+import org.biukhanhhau.backend.model.Product;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
