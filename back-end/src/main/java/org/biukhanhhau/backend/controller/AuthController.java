@@ -51,7 +51,7 @@ public class AuthController {
         }
 
         newUser.setPassword(passwordEncoder.encode(newUser.getPassword()));
-
+        newUser.setRole("USER");
         if(newUser.getRole() == null || newUser.getRole().isEmpty()) {
             newUser.setRole("USER");
         }

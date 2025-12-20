@@ -3,6 +3,7 @@ package org.biukhanhhau.backend.controller;
 import org.biukhanhhau.backend.service.ProductService;
 import org.biukhanhhau.backend.model.Product;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,12 +30,14 @@ public class ProductController {
     }
 
     @PostMapping("products")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> addProduct(@RequestBody Product Product){
         Product pro = ProductService.addProduct(Product);
         return ResponseEntity.ok(pro);
     }
 
     @PutMapping("products/{id}")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody Product product){
         Product pro = ProductService.updateProduct(id, product);
         return ResponseEntity.ok(pro);
