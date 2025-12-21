@@ -1,11 +1,15 @@
 package org.biukhanhhau.backend.controller;
 
+import org.biukhanhhau.backend.dto.ProductDTO;
+import org.biukhanhhau.backend.model.Category;
+import org.biukhanhhau.backend.repository.CategoryRepository;
 import org.biukhanhhau.backend.service.ProductService;
 import org.biukhanhhau.backend.model.Product;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -14,8 +18,10 @@ import java.util.Optional;
 public class ProductController {
 
     ProductService ProductService;
-    ProductController(ProductService ProductService){
+    CategoryRepository categoryRepository;
+    ProductController(ProductService ProductService, CategoryRepository categoryRepository){
         this.ProductService = ProductService;
+        this.categoryRepository =categoryRepository;
     }
 
     @GetMapping("products")
@@ -32,15 +38,34 @@ public class ProductController {
 
     @PostMapping("products")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Product> addProduct(@RequestBody Product Product){
-        Product pro = ProductService.addProduct(Product);
+    public ResponseEntity<Product> addProduct(@RequestBody ProductDTO productDTO){
+        Category category = categoryRepository.findById(productDTO.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("Cannot find the category!"));
+        Product newProduct = new Product();
+        newProduct.setName(productDTO.getName());
+        newProduct.setDescription(productDTO.getDescription());
+        newProduct.setPrice(productDTO.getPrice());
+        newProduct.setQuantity(productDTO.getQuantity());
+        newProduct.setSku(productDTO.getSku());
+        newProduct.setCategory(category);
+
+        Product pro = ProductService.addProduct(newProduct);
         return ResponseEntity.ok(pro);
     }
 
     @PutMapping("products/{id}")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody Product product){
-        Product pro = ProductService.updateProduct(id, product);
+    public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody ProductDTO productDTO){
+        Category category = categoryRepository.findById(productDTO.getCategoryId())
+                .orElseThrow(() -> new RuntimeException("This category isn't existed yet"));
+        Product newProduct = new Product();
+        newProduct.setName(productDTO.getName());
+        newProduct.setDescription(productDTO.getDescription());
+        newProduct.setPrice(productDTO.getPrice());
+        newProduct.setQuantity(productDTO.getQuantity());
+        newProduct.setSku(productDTO.getSku());
+        newProduct.setCategory(category);
+        Product pro = ProductService.updateProduct(id, newProduct);
         return ResponseEntity.ok(pro);
     }
 

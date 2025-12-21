@@ -32,12 +32,21 @@ public class ProductService {
     public Product updateProduct(int id, Product product) {
         Product proTemp = repo.findById(Long.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Product not found"));
-
-        proTemp.setName(product.getName());
-        proTemp.setPrice(product.getPrice());
-        proTemp.setQuantity(product.getQuantity());
-        proTemp.setSku(product.getSku());
-        proTemp.setDescription(product.getDescription());
+        if(proTemp.getName() != null){
+            proTemp.setName(product.getName());
+        }
+        if(proTemp.getPrice() != null){
+            proTemp.setPrice(product.getPrice());
+        }
+        if(proTemp.getQuantity() != null){
+            proTemp.setQuantity(product.getQuantity());
+        }
+        if(proTemp.getSku() != null){
+            proTemp.setSku(product.getSku());
+        }
+        if(proTemp.getDescription() != null){
+            proTemp.setDescription(product.getDescription());
+        }
 
         return repo.save(proTemp);
     }

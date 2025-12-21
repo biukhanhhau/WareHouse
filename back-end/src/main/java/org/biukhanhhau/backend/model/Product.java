@@ -27,6 +27,14 @@ public class Product {
     // so can use"nullable = true" instead
     private Category category;
 
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
     public Timestamp getLastest_change() {
         return latest_update;
     }
