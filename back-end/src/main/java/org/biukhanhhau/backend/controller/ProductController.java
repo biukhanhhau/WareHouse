@@ -2,6 +2,7 @@ package org.biukhanhhau.backend.controller;
 
 import org.biukhanhhau.backend.service.ProductService;
 import org.biukhanhhau.backend.model.Product;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
@@ -41,5 +42,11 @@ public class ProductController {
     public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody Product product){
         Product pro = ProductService.updateProduct(id, product);
         return ResponseEntity.ok(pro);
+    }
+
+    @DeleteMapping("products/{id}")
+    public ResponseEntity<Void> deleteProduct(@PathVariable int id){
+        ProductService.deleteProduct(id);
+        return ResponseEntity.noContent().build();
     }
 }

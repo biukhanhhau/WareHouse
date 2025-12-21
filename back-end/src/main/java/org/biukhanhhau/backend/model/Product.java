@@ -21,6 +21,11 @@ public class Product {
     private Timestamp created_at;
     @UpdateTimestamp
     private Timestamp latest_update;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    // never set "unique = true" for this one, because it makes only one category belonging to one product
+    // so can use"nullable = true" instead
+    private Category category;
 
     public Timestamp getLastest_change() {
         return latest_update;

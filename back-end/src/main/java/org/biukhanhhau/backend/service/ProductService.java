@@ -3,7 +3,10 @@ package org.biukhanhhau.backend.service;
 import org.biukhanhhau.backend.repository.ProductRepository;
 import org.biukhanhhau.backend.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -37,5 +40,17 @@ public class ProductService {
         proTemp.setDescription(product.getDescription());
 
         return repo.save(proTemp);
+    }
+
+    public void deleteProduct(int id) {
+        if(!repo.existsById(Long.valueOf(id))){
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "this product hasn't not existed yet");
+        }
+        try{
+            repo.deleteById(Long.valueOf(id));
+        }
+        catch (DataIntegrityViolationException e){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "This product is in relationship");
+        }
     }
 }
