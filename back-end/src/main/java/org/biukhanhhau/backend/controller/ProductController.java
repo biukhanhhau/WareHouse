@@ -1,5 +1,6 @@
 package org.biukhanhhau.backend.controller;
 
+import jakarta.validation.Valid;
 import org.biukhanhhau.backend.dto.ProductDTO;
 import org.biukhanhhau.backend.model.Category;
 import org.biukhanhhau.backend.repository.CategoryRepository;
@@ -38,7 +39,10 @@ public class ProductController {
 
     @PostMapping("products")
     @PreAuthorize("hasRole('ADMIN')")
-    public ResponseEntity<Product> addProduct(@RequestBody ProductDTO productDTO){
+    public ResponseEntity<Product> addProduct(@Valid @RequestBody ProductDTO productDTO){
+        if(ProductService.existByName(productDTO.getName())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "this name already existed");
+        }
         Category category = categoryRepository.findById(productDTO.getCategoryId().longValue())
                 .orElseThrow(() -> new RuntimeException("Cannot find the category!"));
         Product newProduct = new Product();
@@ -55,6 +59,7 @@ public class ProductController {
 
     @PutMapping("products/{id}")
     @PreAuthorize("hasRole('ADMIN')")
+    @Valid
     public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody ProductDTO productDTO){
         Product newProduct = new Product();
         newProduct.setName(productDTO.getName());

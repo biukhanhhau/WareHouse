@@ -1,12 +1,18 @@
 package org.biukhanhhau.backend.dto;
 
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Min;
+import jakarta.validation.constraints.NotBlank;
 import org.biukhanhhau.backend.model.Category;
 
 public class ProductDTO {
     private String sku;
+    @NotBlank(message = "name cannot be blank")
     private String name;
     private String description;
+    @DecimalMin(value = "0.0", message = "price must be more than 0")
     private Double price;
+    @Min(value = 0)
     private Integer quantity;
     private Integer categoryId;
 

@@ -67,4 +67,9 @@ public class ProductService {
             throw new ResponseStatusException(HttpStatus.CONFLICT, "Cannot delete because this product is in use");
         }
     }
+
+
+    public boolean existByName(String name){
+        return repo.existsByName(name);
+    }
 }
