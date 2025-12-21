@@ -49,6 +49,7 @@ The system is built with a focus on **clean architecture**, security best practi
 ---
 
 ## 🚀 API Endpoints
+<img width="1920" height="1550" alt="image" src="https://github.com/user-attachments/assets/f36a0776-b4bb-4f18-a7bb-7c11cfc71cca" />
 
 ### 1. Authentication
 | Method | Endpoint | Description | Access |
@@ -75,7 +76,7 @@ The system is built with a focus on **clean architecture**, security best practi
 
 1.  **Clone the repository:**
     ```bash
-    git clone [https://github.com/](https://github.com/)[YOUR_USERNAME]/warehouse-backend.git
+    git clone https://github.com/biukhanhhau/WareHouse.git
     ```
 
 2.  **Configure Database:**
@@ -102,4 +103,5 @@ Instead of a generic 500 or 400 error, the system returns specific validation me
     "price": "Price must be greater than 0",
     "name": "Product name cannot be blank"
 }
+
 
