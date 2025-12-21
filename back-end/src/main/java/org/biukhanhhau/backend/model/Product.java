@@ -15,7 +15,7 @@ public class Product {
     private String name;
     private String description;
     private Double price;
-    private int quantity;
+    private Integer quantity;
     @CreationTimestamp
     @Column(updatable = false)
     private Timestamp created_at;
@@ -83,7 +83,7 @@ public class Product {
         this.price = price;
     }
 
-    public int getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 

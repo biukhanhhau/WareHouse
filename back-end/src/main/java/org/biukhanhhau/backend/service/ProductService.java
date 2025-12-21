@@ -14,8 +14,10 @@ import java.util.Optional;
 @Service
 public class ProductService {
 
-    @Autowired
     ProductRepository repo;
+    ProductService(ProductRepository repo){
+        this.repo = repo;
+    }
 
     public List<Product> getProducts() {
         return repo.findAll();
@@ -32,19 +34,19 @@ public class ProductService {
     public Product updateProduct(int id, Product product) {
         Product proTemp = repo.findById(Long.valueOf(id))
                 .orElseThrow(() -> new RuntimeException("Product not found"));
-        if(proTemp.getName() != null){
+        if(product.getName() != null){
             proTemp.setName(product.getName());
         }
-        if(proTemp.getPrice() != null){
+        if(product.getPrice() != null){
             proTemp.setPrice(product.getPrice());
         }
-        if(proTemp.getQuantity() != null){
+        if(product.getQuantity() != null){
             proTemp.setQuantity(product.getQuantity());
         }
-        if(proTemp.getSku() != null){
+        if(product.getSku() != null){
             proTemp.setSku(product.getSku());
         }
-        if(proTemp.getDescription() != null){
+        if(product.getDescription() != null){
             proTemp.setDescription(product.getDescription());
         }
 
@@ -53,13 +55,13 @@ public class ProductService {
 
     public void deleteProduct(int id) {
         if(!repo.existsById(Long.valueOf(id))){
-            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "this product hasn't not existed yet");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Product does not exist");
         }
         try{
             repo.deleteById(Long.valueOf(id));
         }
         catch (DataIntegrityViolationException e){
-            throw new ResponseStatusException(HttpStatus.CONFLICT, "This product is in relationship");
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Cannot delete because this product is in use");
         }
     }
 }

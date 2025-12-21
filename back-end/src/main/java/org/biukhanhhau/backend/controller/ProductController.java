@@ -39,7 +39,7 @@ public class ProductController {
     @PostMapping("products")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> addProduct(@RequestBody ProductDTO productDTO){
-        Category category = categoryRepository.findById(productDTO.getCategoryId())
+        Category category = categoryRepository.findById(Long.valueOf(productDTO.getCategoryId()))
                 .orElseThrow(() -> new RuntimeException("Cannot find the category!"));
         Product newProduct = new Product();
         newProduct.setName(productDTO.getName());
@@ -50,21 +50,25 @@ public class ProductController {
         newProduct.setCategory(category);
 
         Product pro = ProductService.addProduct(newProduct);
-        return ResponseEntity.ok(pro);
+        return ResponseEntity.status(HttpStatus.CREATED).body(pro);
     }
 
     @PutMapping("products/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> updateProduct(@PathVariable int id, @RequestBody ProductDTO productDTO){
-        Category category = categoryRepository.findById(productDTO.getCategoryId())
-                .orElseThrow(() -> new RuntimeException("This category isn't existed yet"));
         Product newProduct = new Product();
         newProduct.setName(productDTO.getName());
         newProduct.setDescription(productDTO.getDescription());
         newProduct.setPrice(productDTO.getPrice());
         newProduct.setQuantity(productDTO.getQuantity());
         newProduct.setSku(productDTO.getSku());
-        newProduct.setCategory(category);
+
+        if (productDTO.getCategoryId() != null){
+            Category category = categoryRepository.findById(Long.valueOf(productDTO.getCategoryId()))
+                    .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Not found this category"));
+            newProduct.setCategory(category);
+        }
+
         Product pro = ProductService.updateProduct(id, newProduct);
         return ResponseEntity.ok(pro);
     }

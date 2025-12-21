@@ -24,7 +24,7 @@ public class CategoryService {
 
     public Category findById(long id){
         return categoryRepository.findById(id)
-                .orElse(null);
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Category not found"));
     }
 
     public Category addCategory(Category category){
@@ -35,10 +35,15 @@ public class CategoryService {
     }
 
     public Category updateCategory(long id, Category category){
-        if (categoryRepository.existsByName(findById(id).getName())){
-            categoryRepository.save(category);
+        Category existingCate = findById(id);
+        if (!existingCate.getName().equals(category.getName())
+             && categoryRepository.existsByName(category.getName())){
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Category name already exists");
         }
-        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "This category is not existed");
+        if(category.getName() != null){
+            existingCate.setName(category.getName());
+        }
+        return categoryRepository.save(existingCate);
     }
 
     public void deleteCategory(long id) {
