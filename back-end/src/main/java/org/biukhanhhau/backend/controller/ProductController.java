@@ -39,7 +39,7 @@ public class ProductController {
     @PostMapping("products")
     @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Product> addProduct(@RequestBody ProductDTO productDTO){
-        Category category = categoryRepository.findById(Long.valueOf(productDTO.getCategoryId()))
+        Category category = categoryRepository.findById(productDTO.getCategoryId().longValue())
                 .orElseThrow(() -> new RuntimeException("Cannot find the category!"));
         Product newProduct = new Product();
         newProduct.setName(productDTO.getName());

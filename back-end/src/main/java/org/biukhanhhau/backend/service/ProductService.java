@@ -49,6 +49,9 @@ public class ProductService {
         if(product.getDescription() != null){
             proTemp.setDescription(product.getDescription());
         }
+        if(product.getCategory() != null){
+            proTemp.setCategory(product.getCategory());
+        }
 
         return repo.save(proTemp);
     }
