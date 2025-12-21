@@ -41,7 +41,8 @@ The system is built with a focus on **clean architecture**, security best practi
 
 ## 🗂 Database Design (ERD)
 
-<img width="1330" height="899" alt="image" src="https://github.com/user-attachments/assets/3ef12d0e-9cbf-40e5-a3b0-9efb7fde264f" />
+<img width="542" height="748" alt="image (1)" src="https://github.com/user-attachments/assets/b53729ab-3e5d-40b8-ac83-a6020b55e261" />
+
 
 `Categories (1) <---> (N) Products`
 
@@ -101,3 +102,4 @@ Instead of a generic 500 or 400 error, the system returns specific validation me
     "price": "Price must be greater than 0",
     "name": "Product name cannot be blank"
 }
+
